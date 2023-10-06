@@ -1,5 +1,7 @@
 #!/bin/sh
 
+BASE_URL="https://api.stock.weiapi.net"
+
 src=$(tar cjf - src/ | base64 -w 0)
 log=$(echo $DRONE_COMMIT_MESSAGE | base64 -w 0)
 version=${DRONE_TAG}
@@ -43,6 +45,6 @@ postfile=$(mktemp)
 echo $postfile
 echo $postdata > "$postfile"
 
-wget --header="Accept: application/json" --header="Content-Type: application/json" --post-file=$postfile -O - http://localhost:9900/plugin/$uuid
+wget --header="Accept: application/json" --header="Content-Type: application/json" --post-file=$postfile -O - ${BASE_URL}/plugin/$uuid
 
 rm -f $postfile
